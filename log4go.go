@@ -52,6 +52,7 @@ import (
 	"time"
 	"strings"
 	"runtime"
+	"sync"
 )
 
 // Version information
@@ -81,6 +82,7 @@ const (
 // Logging level strings
 var (
 	levelStrings = [...]string{"FNST", "FINE", "DEBG", "TRAC", "INFO", "WARN", "EROR", "CRIT"}
+	wg sync.WaitGroup
 )
 
 func (l level) String() string {
@@ -165,10 +167,12 @@ func NewDefaultLogger(lvl level) Logger {
 // all filters (and thus all LogWriters) from the logger.
 func (log Logger) Close() {
 	// Close all open loggers
+	wg.Add(len(log))
 	for name, filt := range log {
 		filt.Close()
 		delete(log, name)
 	}
+	wg.Wait() 
 }
 
 // Add a new LogWriter to the Logger which will only log messages at lvl or

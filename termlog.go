@@ -30,6 +30,7 @@ func (w ConsoleLogWriter) run(out io.Writer) {
 		}
 		fmt.Fprint(out, "[", timestr, "] [", levelStrings[rec.Level], "] ", rec.Message, "\n")
 	}
+	wg.Done()
 }
 
 // This is the ConsoleLogWriter's output method.  This will block if the output
