@@ -107,6 +107,7 @@ func (w FormatLogWriter) run(out io.Writer, format string) {
 	for rec := range w {
 		fmt.Fprint(out, FormatLogRecord(format, rec))
 	}
+	wg.Done()
 }
 
 // This is the FormatLogWriter's output method.  This will block if the output

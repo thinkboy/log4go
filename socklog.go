@@ -35,6 +35,7 @@ func NewSocketLogWriter(proto, hostport string) SocketLogWriter {
 			if sock != nil && proto == "tcp" {
 				sock.Close()
 			}
+			wg.Done()
 		}()
 
 		for rec := range w {

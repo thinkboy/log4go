@@ -79,6 +79,7 @@ func NewFileLogWriter(fname string, rotate bool) *FileLogWriter {
 				fmt.Fprint(w.file, FormatLogRecord(w.trailer, &LogRecord{Created: time.Now()}))
 				w.file.Close()
 			}
+			wg.Done()
 		}()
 
 		for {
